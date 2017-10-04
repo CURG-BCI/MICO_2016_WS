@@ -4,59 +4,54 @@ sources:
 # Standard includes
 - name: src/lcsr_tf_tools
   repo: 'git@github.com:CURG-BCI/lcsr_tf_tools.git'
-  version: master
+  rev: master
 - name: src/moveit_trajectory_planner
   repo: 'git@github.com:CURG-BCI/moveit_trajectory_planner.git'
-  version: master
+  rev: master
 - name: src/run_experiment
   repo: 'git@github.com:CURG-BCI/run_experiment.git'
-  version: master
+  rev: master
 
 # Vision includes
 - name: src/iai_kinect2
   repo: https://github.com/code-iai/iai_kinect2.git
-  version: master
+  rev: master
 - name: src/filter_tf
   repo: 'git@github.com:CURG/filter_tf.git'
-  version: master
+  rev: master
 - name: src/ar_track_alvar
-  repo: git@github.com:CURG-BCI/ar_track_alvar.git
-  version: indigo-devel
+  repo: https://github.com/ros-perception/ar_track_alvar.git
+  rev: kinetic-devel
 - name: src/object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
-  version: master
-# - name: src/pc_filter
-#   repo: git@github.com:CRLab/pc_filter.git
-#   version: master
+  rev: master
 - name: src/mvp_objrec
   repo: 'git@github.com:CURG-BCI/mvp_objrec.git'
-  version: master
+  rev: master
 
 # Graspit includes
 - name: src/graspit_bci_plugin
   repo: 'git@github.com:CURG-BCI/graspit_bci_plugin.git'
-  version: master
+  rev: master
 - name: src/graspit_msgs
   repo: 'git@github.com:CURG-BCI/graspit_msgs.git'
-  version: master
+  rev: master
 - name: src/graspit
-  repo: ri: 'git@github.com:CURG-BCI/graspit-ros.git'
-  version: master
+  repo: 'git@github.com:CURG-BCI/graspit-ros.git'
+  rev: master
 
 # Graspit input devices
 - name: src/graspit_threshold_controller
   repo: 'git@github.com:CURG-BCI/graspit_threshold_controller.git'
-  version: master
+  rev: master
 - name: src/graspit_alexa_controller
   repo: 'git@github.com:CURG-BCI/graspit_alexa_controller.git'
-  version: master
+  rev: master
 - name: src/graspit_switch_controller
   repo: 'git@github.com:CURG-BCI/graspit_switch_controller.git'
-  version: master
+  rev: master
 
 # Kinova Mico includes
 - name: src/kinova-ros
   repo: 'git@github.com:davidwatkins/kinova-ros.git'
-  version: master
-  scripts:
-  - cd ../../ && catkin_make
+  rev: master

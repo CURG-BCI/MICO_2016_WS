@@ -30,7 +30,7 @@
         <node name="pc_filter_mico_kinectone" pkg="pc_filter" type="pc_filter" output="screen"/>
     </group> -->
     <group ns="filter_tf_mico_kinectone">
-        <param name="observed_frame" value="/kinectone_ar_marker_8" />
+        <param name="observed_frame" value="/ar_marker_8" />
         <param name="filtered_frame" value="/world" />
         <param name="local_frame" value="/kinect2_link" />
 
@@ -41,7 +41,6 @@
         <param name="max_new_marker_error"  type="double" value="0.08" />
         <param name="max_track_error"       type="double" value="0.0" />
         <param name="output_frame"          type="string" value="/kinect2_rgb_optical_frame" />
-        <param name="frame_prefix"          type="string" value="kinectone_" />
 
         <remap from="camera_image"  to="/kinect2/hd/points" />
         <remap from="camera_info"   to="/kinect2/hd/camera_info" />
