@@ -1,0 +1,26 @@
+<launch>
+
+    <arg name="use_robot_hw" default="True" />
+    <arg name="use_mico" default="True"/> 
+    <arg name="experiment_type" default="block" />
+
+    <param name="use_robot_hw" value="$(arg use_robot_hw)" />
+    <param name="experiment_type" value="$(arg experiment_type)" />
+
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.171823 -0.0481138 0.03697977 0.000000 0.0000 1.0 0.0 /world /root 50"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 m1n6s200_end_effector approach_tran 100" />
+
+    <include file="$(find bci_experiment_launch)/launch/vision.launch" />
+
+    <include file="$(find kinova_bringup)/launch/kinova_robot.launch" if="$(arg use_robot_hw)">
+        <arg name="kinova_robotType" value="m1n6s200"/>
+    </include>
+
+    <include file="$(find m1n6s200_moveit_config)/launch/m1n6s200_demo.launch" />
+
+    <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
+        <arg name="hand_name" value="mico"/>
+    </include>
+
+</launch>
