@@ -1,6 +1,15 @@
 location: .
 sources:
 
+# Dependencies
+- name: dependencies/assimp
+  repo: git@github.com:assimp/assimp.git
+  rev: a8673d4828df5107186f49e5e4efa5316b727482
+  scripts:
+  - mkdir -p build
+  - cd build && cmake .. && make -j$(nproc) && sudo make install
+  - cd port/PyAssimp && python setup.py install --user
+
 # Standard includes
 - name: src/lcsr_tf_tools
   repo: 'git@github.com:CURG-BCI/lcsr_tf_tools.git'
@@ -19,9 +28,9 @@ sources:
 - name: src/filter_tf
   repo: 'git@github.com:CURG/filter_tf.git'
   rev: master
-- name: src/ar_track_alvar
-  repo: https://github.com/ros-perception/ar_track_alvar.git
-  rev: kinetic-devel
+#- name: src/ar_track_alvar
+#  repo: https://github.com/ros-perception/ar_track_alvar.git
+#  rev: kinetic-devel
 - name: src/object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
   rev: master

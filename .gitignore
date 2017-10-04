@@ -48,3 +48,6 @@ CATKIN_IGNORE
 
 src/*
 !src/launcher/*
+devel/*
+CMakeFiles/*
+.catkin_workspace
