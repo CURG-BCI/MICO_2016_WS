@@ -16,7 +16,7 @@ sources:
 
 # Vision includes
 - name: src/iai_kinect2
-  repo: https://github.com/code-iai/iai_kinect2.git
+  repo: git@github.com:CRLab/iai_kinect2.git
   rev: master
 - name: src/filter_tf
   repo: 'git@github.com:CURG/filter_tf.git'
