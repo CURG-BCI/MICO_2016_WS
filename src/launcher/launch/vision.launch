@@ -7,13 +7,13 @@
     <arg name="y_filter_max" value="-0.2" />
     <arg name="z_filter_max" value="0.3" />
 
-    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
+<!--     <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch">
         <arg name="depth_method" value="opencl" />
         <arg name="publish_tf" value="true" />
         <arg name="max_depth" value="3.0" />
         <arg name="fps_limit" value="5" />
         <arg name="calib_path" value="$(find launcher)/data/" />
-    </include>
+    </include> -->
 <!--     <group ns="pc_filter">
         <param name="xpassthrough/filter_limit_min" value="$(arg x_filter_min)" />
         <param name="ypassthrough/filter_limit_min" value="$(arg y_filter_min)" />
@@ -29,7 +29,7 @@
 
         <node name="pc_filter_mico_kinectone" pkg="pc_filter" type="pc_filter" output="screen"/>
     </group> -->
-    <group ns="filter_tf_mico_kinectone">
+<!--     <group ns="filter_tf_mico_kinectone">
         <param name="observed_frame" value="/ar_marker_8" />
         <param name="filtered_frame" value="/world" />
         <param name="local_frame" value="/kinect2_link" />
@@ -44,7 +44,7 @@
 
         <remap from="camera_image"  to="/kinect2/hd/points" />
         <remap from="camera_info"   to="/kinect2/hd/camera_info" />
-    </node>
+    </node> -->
 
     <group ns="objrec_node">
         <node pkg="objrec_ros_integration" type="objrec_blocks" name="objrec_blocks" respawn="true" />
