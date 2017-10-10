@@ -24,8 +24,8 @@ sources:
 - name: src/object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
   rev: master
-- name: src/mvp_objrec
-  repo: 'git@github.com:CURG-BCI/mvp_objrec.git'
+- name: src/block_recognition_node
+  repo: 'git@github.com:CRLab/block_recognition_node.git'
   rev: master
 
 # Graspit includes
