@@ -27,12 +27,12 @@
     </include>
 
     <include file="$(find m1n6s200_moveit_config)/launch/m1n6s200_demo.launch" if="$(arg use_robot_hw)">
-        <arg name="show_rviz" value="true" />
+        <arg name="show_rviz" value="false" />
     </include>
 
         <!-- Fake arm controller -->
     <include file="$(find m1n6s200_moveit_config)/launch/demo.launch" unless="$(arg use_robot_hw)" >
-        <arg name="show_rviz" value="true" />
+        <arg name="show_rviz" value="false" />
     </include>
 
 
@@ -98,5 +98,10 @@
         <param name="z_clip_max" value="$(arg z_filter_max)"/>
         <include file="$(find launcher)/launch/models.launch"/>
     </group>
+
+
+    <!-- RViz -->
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="$(find launcher)/launch/moveit.rviz"
+          output="screen" />
 
 </launch>
