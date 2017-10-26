@@ -1,20 +1,27 @@
 <launch>
 
+    <!-- Launch parameters -->
     <arg name="use_robot_hw" default="True" />
     <arg name="use_kinect_hw" default="True" />
     <arg name="ros_bag_filename" default="" />
 
-    <node pkg="kinect2_republisher" type="kinect2_republisher" name="kinect2_republisher"
-          output="screen" args="$(arg ros_bag_filename)" if="$(eval ros_bag_filename != '')" />
 
-    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.171823 -0.0481138 0.03697977 0.000000 0.0000 1.0 0.0 /world /root 50"/>
+    <!-- Bounds on environment -->
+    <arg name="x_filter_min" value="0.1" />
+    <arg name="y_filter_min" value="-0.6" />
+    <arg name="z_filter_min" value="0.1" />
+    <arg name="x_filter_max" value="0.45" />
+    <arg name="y_filter_max" value="-0.2" />
+    <arg name="z_filter_max" value="0.3" />
 
-    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 m1n6s200_end_effector approach_tran 100" />
 
-    <include file="$(find launcher)/launch/vision.launch" >
-        <arg name="use_kinect_hw" value="$(arg use_kinect_hw)" />
-    </include>
+    <!-- Planning time -->
+    <arg name="executer_planning_time" value="8"/>
+    <arg name="analyzer_planning_time" value="1"/>
 
+
+    <!-- Mico arm controllers -->
+        <!-- Real arm controller -->
     <include file="$(find kinova_bringup)/launch/kinova_robot.launch" if="$(arg use_robot_hw)">
         <arg name="kinova_robotType" value="m1n6s200"/>
     </include>
@@ -23,12 +30,73 @@
         <arg name="show_rviz" value="true" />
     </include>
 
+        <!-- Fake arm controller -->
     <include file="$(find m1n6s200_moveit_config)/launch/demo.launch" unless="$(arg use_robot_hw)" >
         <arg name="show_rviz" value="true" />
     </include>
 
-    <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
-        <arg name="hand_name" value="mico"/>
+
+    <!-- Trajectory Planners -->
+    <param name="grasp_listener_topic" value="/graspit/grasps"/>
+    <param name="trajectory_display_topic" value="/move_group/display_planned_path"/>
+
+    <rosparam command="load" file="$(find launcher)/configs/mico.grasping.yaml"/>
+    <rosparam command="load" file="$(find launcher)/configs/mico.workspace.yaml"/>
+
+    <node name="grasp_executer" pkg="moveit_trajectory_planner" type="grasp_execution_node.py" >
+    	  <param name="allowed_planning_time" value="$(arg executer_planning_time)" />
+    	  <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
+    </node>
+
+    <node name="grasp_analyzer" pkg="moveit_trajectory_planner" type="grasp_analyzer_node.py" >
+    	  <param name="allowed_planning_time" value="$(arg analyzer_planning_time)" />
+    	  <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
+    </node>
+
+    <node name="world_manager" pkg="moveit_trajectory_planner" type="world_manager_node.py" />
+
+
+    <!-- Kinect2 Broadcasters -->
+    <node pkg="kinect2_republisher" type="kinect2_republisher.py" name="kinect2_republisher"
+          output="screen" args="$(arg ros_bag_filename)" if="$(eval ros_bag_filename != '')" />
+
+    <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch" if="$(arg use_kinect_hw)" >
+        <arg name="depth_method" value="opencl" />
+        <arg name="publish_tf" value="true" />
+        <arg name="max_depth" value="3.0" />
+        <arg name="fps_limit" value="5" />
+        <arg name="calib_path" value="$(find launcher)/data/" />
     </include>
+
+
+    <!-- TF Broadcasters -->
+    <node pkg="filter_tf" type="filter_tf.py" name="filter_tf_marker8_kinect2" args="/ar_marker_8 /kinect2_link 10 --destination_frame /world"/>
+
+    <node name="ar_track_alvar_kinectone" pkg="ar_track_alvar" type="individualMarkers" respawn="false" output="screen">
+        <param name="marker_size"           type="double" value="6.0" />
+        <param name="max_new_marker_error"  type="double" value="0.08" />
+        <param name="max_track_error"       type="double" value="0.0" />
+        <param name="output_frame"          type="string" value="/kinect2_rgb_optical_frame" />
+
+        <remap from="camera_image"  to="/kinect2/hd/points" />
+        <remap from="camera_info"   to="/kinect2/hd/camera_info" />
+    </node>
+
+    <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.171823 -0.0481138 0.03697977 0.000000 0.0000 1.0 0.0 /world /root 50"/>
+
+    <node pkg="tf" type="static_transform_publisher" name="hand_to_approach" args= "0, 0, 0, 0, 0, -1.57079632679, 1.57079632679 m1n6s200_end_effector approach_tran 100" />
+
+
+    <!-- Object Recognition -->
+    <group ns="objrec_node">
+        <node pkg="objrec_ros_integration" type="objrec_blocks" name="objrec_blocks" respawn="true" />
+        <param name="x_clip_min" value="$(arg x_filter_min)"/>
+        <param name="y_clip_min" value="$(arg y_filter_min)"/>
+        <param name="z_clip_min" value="$(arg z_filter_min)"/>
+        <param name="x_clip_max" value="$(arg x_filter_max)"/>
+        <param name="y_clip_max" value="$(arg y_filter_max)"/>
+        <param name="z_clip_max" value="$(arg z_filter_max)"/>
+        <include file="$(find launcher)/launch/models.launch"/>
+    </group>
 
 </launch>
