@@ -54,3 +54,8 @@ sources:
 - name: src/kinova-ros
   repo: 'git@github.com:davidwatkins/kinova-ros.git'
   rev: master
+
+# Object Recognition includes
+- name: src/block_recognition
+  repo: 'git@github.com:CRLab/block_recognition.git'
+  rev: master
