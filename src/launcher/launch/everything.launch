@@ -101,7 +101,9 @@
 
 
     <!-- RViz -->
-    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="$(find launcher)/launch/moveit.rviz"
-          output="screen" />
+    <node name="$(anon rviz)" pkg="rviz" type="rviz" respawn="false" args="-d $(find launcher)/launch/moveit.rviz"
+          output="screen">
+        <rosparam command="load" file="$(find m1n6s200_moveit_config)/config/kinematics.yaml"/>
+    </node>
 
 </launch>
