@@ -106,4 +106,21 @@
         <rosparam command="load" file="$(find m1n6s200_moveit_config)/config/kinematics.yaml"/>
     </node>
 
+
+    <!-- Graspit -->
+    <node name="graspit_ros" pkg="graspit" type="graspit_simulator"  output="screen" args=" -p libgraspit_bci_plugin" >
+        <env name="GRASPIT" value="$(find graspit)/graspit_source"/>
+        <env name="CGDB_MODEL_ROOT" value="$(find graspit)/graspit_source/cgdb"/>
+        <env name="GRASPIT_PLUGIN_DIR" value="$(find graspit_bci_plugin)/../../devel/lib"/>
+        <env name="SPRITES_DIR" value="$(find graspit_bci_plugin)/sprites/"/>
+        <env name="LOG_DIR" value="$(find graspit_bci_plugin)/logs/"/>
+    </node>
+
+    <!-- Run Experiment -->
+    <node name="run_experiment" type="run_experiment.py" pkg="run_experiment" />
+
+    <!-- Alexa Controller -->
+    <!-- This one you have to run on your own, unfortunately -->
+    <!-- TODO: Integrate Xuelong's addition -->
+
 </launch>
