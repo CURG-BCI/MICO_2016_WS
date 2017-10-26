@@ -24,6 +24,9 @@ sources:
 - name: src/object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
   rev: master
+- name: src/kinect2_republisher
+  repo: git@github.com:CRLab/kinect2_republisher.git
+  rev: master
 
 # Graspit includes
 - name: src/graspit_bci_plugin

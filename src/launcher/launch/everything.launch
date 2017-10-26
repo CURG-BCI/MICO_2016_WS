@@ -4,12 +4,8 @@
     <arg name="use_kinect_hw" default="True" />
     <arg name="ros_bag_filename" default="" />
 
-    <param name="use_robot_hw" value="$(arg use_robot_hw)" />
-
-    <group if="$(eval ros_bag_filename != '')" >
-        <param name="/use_sim_time" value="true" />
-        <node pkg="rosbag" type="play" name="player" output="screen" args="--clock --loop $(arg ros_bag_filename) --delay=5"/>
-    </group>
+    <node pkg="kinect2_republisher" type="kinect2_republisher" name="kinect2_republisher"
+          output="screen" args="$(arg ros_bag_filename)" if="$(eval ros_bag_filename != '')" />
 
     <node pkg="lcsr_tf_tools" type="interactive_transform_publisher" name="world_to_root" args="0.171823 -0.0481138 0.03697977 0.000000 0.0000 1.0 0.0 /world /root 50"/>
 
@@ -23,9 +19,13 @@
         <arg name="kinova_robotType" value="m1n6s200"/>
     </include>
 
-    <include file="$(find m1n6s200_moveit_config)/launch/m1n6s200_demo.launch" if="$(arg use_robot_hw)" />
+    <include file="$(find m1n6s200_moveit_config)/launch/m1n6s200_demo.launch" if="$(arg use_robot_hw)">
+        <arg name="show_rviz" value="true" />
+    </include>
 
-    <include file="$(find m1n6s200_moveit_config)/launch/demo.launch" unless="$(arg use_robot_hw)" />
+    <include file="$(find m1n6s200_moveit_config)/launch/demo.launch" unless="$(arg use_robot_hw)" >
+        <arg name="show_rviz" value="true" />
+    </include>
 
     <include file="$(find moveit_trajectory_planner)/launch/moveit_trajectory_planner.launch">
         <arg name="hand_name" value="mico"/>
