@@ -13,6 +13,9 @@ sources:
 - name: src/run_experiment
   repo: 'git@github.com:CURG-BCI/run_experiment.git'
   rev: master
+- name: src/grasp_execution
+  repo: git@github.com:CRLab/grasp_execution.git
+  rev: master
 
 # Vision includes
 - name: src/iai_kinect2

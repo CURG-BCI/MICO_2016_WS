@@ -57,7 +57,7 @@
 
 
     <!-- Kinect2 Broadcasters -->
-    <node pkg="kinect2_republisher" type="kinect2_republisher.py" name="kinect2_republisher"
+    <node pkg="rosbag_republisher" type="rosbag_republisher.py" name="rosbag_republisher"
           output="screen" args="$(arg ros_bag_filename)" if="$(eval ros_bag_filename != '')" />
 
     <include file="$(find kinect2_bridge)/launch/kinect2_bridge.launch" if="$(arg use_kinect_hw)" >
