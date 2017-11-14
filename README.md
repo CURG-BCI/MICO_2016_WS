@@ -57,6 +57,20 @@ mkdir ros
 cd ros
 git clone git@github.com:CURG-BCI/MICO_2016_WS.git
 cd MICO_2016_WS
+
+mkdir dependencies
+cd dependencies
+git clone https://github.com/assimp/assimp.git
+cd assimp
+mkdir build
+cd build
+cmake ..
+make -j$(nproc)
+sudo make install
+cd port/PyAssimp
+python setup.py install --user
+cd ../../../..
+
 gitman install
 catkin_make
 ```
