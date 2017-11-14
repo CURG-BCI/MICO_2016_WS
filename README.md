@@ -69,6 +69,7 @@ make -j$(nproc)
 sudo make install
 cd port/PyAssimp
 python setup.py install --user
+sudo rm -rf /usr/lib/python2.7/dist-packages/pyassimp
 cd ../../../..
 
 gitman install
