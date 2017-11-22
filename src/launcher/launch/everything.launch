@@ -49,12 +49,11 @@
     </node>
 
     <node name="grasp_analyzer" pkg="moveit_trajectory_planner" type="grasp_analyzer_node.py" >
-    	  <param name="allowed_planning_time" value="$(arg analyzer_planning_time)" />
-    	  <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
+          <param name="allowed_planning_time" value="15" />
+          <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
     </node>
 
     <node name="world_manager" pkg="moveit_trajectory_planner" type="world_manager_node.py" />
-
 
     <!-- Kinect2 Broadcasters -->
     <node pkg="rosbag_republisher" type="rosbag_republisher.py" name="rosbag_republisher"

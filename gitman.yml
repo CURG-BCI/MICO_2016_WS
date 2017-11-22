@@ -1,64 +1,64 @@
-location: .
+location: src
 sources:
 
 # Dependencies
 
 # Standard includes
-- name: src/lcsr_tf_tools
+- name: lcsr_tf_tools
   repo: 'git@github.com:CURG-BCI/lcsr_tf_tools.git'
   rev: master
-- name: src/moveit_trajectory_planner
+- name: moveit_trajectory_planner
   repo: 'git@github.com:CURG-BCI/moveit_trajectory_planner.git'
   rev: master
-- name: src/run_experiment
+- name: run_experiment
   repo: 'git@github.com:CURG-BCI/run_experiment.git'
   rev: master
-- name: src/grasp_execution
+- name: grasp_execution
   repo: git@github.com:CRLab/grasp_execution.git
   rev: master
 
 # Vision includes
-- name: src/iai_kinect2
+- name: iai_kinect2
   repo: git@github.com:CRLab/iai_kinect2.git
   rev: master
-- name: src/filter_tf
+- name: filter_tf
   repo: 'git@github.com:CURG/filter_tf.git'
   rev: master
-- name: src/object_models
+- name: object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
   rev: master
-- name: src/kinect2_republisher
+- name: kinect2_republisher
   repo: git@github.com:CRLab/rosbag_republisher.git
   rev: master
 
 # Graspit includes
-- name: src/graspit_bci_plugin
+- name: graspit_bci_plugin
   repo: 'git@github.com:CURG-BCI/graspit_bci_plugin.git'
   rev: master
-- name: src/graspit_msgs
+- name: graspit_msgs
   repo: 'git@github.com:CURG-BCI/graspit_msgs.git'
   rev: master
-- name: src/graspit
+- name: graspit
   repo: 'git@github.com:CURG-BCI/graspit-ros.git'
   rev: master
 
 # Graspit input devices
-- name: src/graspit_threshold_controller
+- name: graspit_threshold_controller
   repo: 'git@github.com:CURG-BCI/graspit_threshold_controller.git'
   rev: master
-- name: src/graspit_alexa_controller
+- name: graspit_alexa_controller
   repo: 'git@github.com:CURG-BCI/graspit_alexa_controller.git'
   rev: master
-- name: src/graspit_switch_controller
+- name: graspit_switch_controller
   repo: 'git@github.com:CURG-BCI/graspit_switch_controller.git'
   rev: master
 
 # Kinova Mico includes
-- name: src/kinova-ros
+- name: kinova-ros
   repo: 'git@github.com:davidwatkins/kinova-ros.git'
   rev: master
 
 # Object Recognition includes
-- name: src/block_recognition
+- name: block_recognition
   repo: 'git@github.com:CRLab/block_recognition.git'
   rev: master
