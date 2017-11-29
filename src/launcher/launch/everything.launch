@@ -19,7 +19,6 @@
     <arg name="executer_planning_time" value="8"/>
     <arg name="analyzer_planning_time" value="1"/>
 
-
     <!-- Mico arm controllers -->
         <!-- Real arm controller -->
     <include file="$(find kinova_bringup)/launch/kinova_robot.launch" if="$(arg use_robot_hw)">
@@ -45,12 +44,12 @@
 
     <node name="grasp_executer" pkg="moveit_trajectory_planner" type="grasp_execution_node.py" >
     	  <param name="allowed_planning_time" value="$(arg executer_planning_time)" />
-    	  <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
+    	  <!-- <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/> -->
     </node>
 
     <node name="grasp_analyzer" pkg="moveit_trajectory_planner" type="grasp_analyzer_node.py" >
           <param name="allowed_planning_time" value="15" />
-          <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/>
+          <!-- <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/> -->
     </node>
 
     <node name="world_manager" pkg="moveit_trajectory_planner" type="world_manager_node.py" />
