@@ -27,7 +27,7 @@ sources:
 - name: src/object_models
   repo: 'git@github.com:CURG-BCI/object_models.git'
   rev: master
-- name: src/kinect2_republisher
+- name: src/rosbag_republisher
   repo: git@github.com:CRLab/rosbag_republisher.git
   rev: master
 
