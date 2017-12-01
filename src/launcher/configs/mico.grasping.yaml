@@ -36,7 +36,7 @@ joint_mimic:
 
 approach_dir_x: 0
 approach_dir_y: 0
-approach_dir_z: -1
+approach_dir_z: 1
 
 end_effector_name: end_effector
 

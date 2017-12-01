@@ -1,5 +1,0 @@
-<launch>
-	<node name="grasp_analyzer" pkg="moveit_trajectory_planner" type="grasp_analyzer_node.py" output="screen" >
-          <param name="allowed_planning_time" value="15" />
-    </node>
-</launch>
