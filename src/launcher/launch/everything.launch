@@ -14,11 +14,6 @@
     <arg name="y_filter_max" value="-0.2" />
     <arg name="z_filter_max" value="0.3" />
 
-
-    <!-- Planning time -->
-    <arg name="executer_planning_time" value="8"/>
-    <arg name="analyzer_planning_time" value="1"/>
-
     <!-- Mico arm controllers -->
         <!-- Real arm controller -->
     <include file="$(find kinova_bringup)/launch/kinova_robot.launch" if="$(arg use_robot_hw)">
@@ -36,23 +31,66 @@
 
 
     <!-- Trajectory Planners -->
-    <param name="grasp_listener_topic" value="/graspit/grasps"/>
-    <param name="trajectory_display_topic" value="/move_group/display_planned_path"/>
+    <group ns="crui_manager">
+        <param name="analyze_grasp_topic" type="string" value="/crui_manager/analyze_grasp" />
+        <param name="execute_grasp_topic" type="string" value="/crui_manager/execute_grasp" />
+        <param name="run_recognition_topic" type="string" value="/crui_manager/run_recognition" />
 
-    <rosparam command="load" file="$(find launcher)/configs/mico.grasping.yaml"/>
-    <rosparam command="load" file="$(find launcher)/configs/mico.workspace.yaml"/>
+        <param name="grasp_approach_tran_frame" type="string" value="/approach_tran" />
+        <param name="world_frame" type="string" value="/world" />
 
-    <node name="grasp_executer" pkg="moveit_trajectory_planner" type="grasp_execution_node.py" >
-    	  <param name="allowed_planning_time" value="$(arg executer_planning_time)" />
-    	  <!-- <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/> -->
-    </node>
+        <param name="arm_move_group_name" type="string" value="arm" />
+        <param name="gripper_move_group_name" type="string" value="gripper" />
 
-    <node name="grasp_analyzer" pkg="moveit_trajectory_planner" type="grasp_analyzer_node.py" >
-          <param name="allowed_planning_time" value="$(arg analyzer_planning_time)" />
-          <!-- <remap from="joint_states" to="/m1n6s200_driver/out/joint_state"/> -->
-    </node>
+        <param name="analyzer_planner_id" type="string" value="[PRMkConfigDefault]" />
+        <param name="executor_planner_id" type="string" value="[RRTkConfigDefault]" />
+        <param name="allowed_analyzing_time" type="double" value="2" />
+        <param name="allowed_execution_time" type="double" value="8" />
 
-    <node name="world_manager" pkg="moveit_trajectory_planner" type="world_manager_node.py" />
+        <param name="final_block_position_x" type="double" value="10" />
+        <param name="final_block_position_y" type="double" value="10" />
+        <param name="final_block_position_z" type="double" value="10" />
+
+        <param name="pre_grasp_approach_direction_frame_id" type="string" value="/approach_tran" />
+        <param name="pre_grasp_approach_direction_x" type="double" value="0" />
+        <param name="pre_grasp_approach_direction_y" type="double" value="0" />
+        <param name="pre_grasp_approach_direction_z" type="double" value="1" />
+
+        <param name="post_grasp_retreat_direction_frame_id" type="string" value="/world" />
+        <param name="post_grasp_retreat_direction_x" type="double" value="0" />
+        <param name="post_grasp_retreat_direction_y" type="double" value="0" />
+        <param name="post_grasp_retreat_direction_z" type="double" value="1" />
+
+        <param name="pre_grasp_goal_point_effort" type="string" value="[50,50]" />
+        <param name="pre_grasp_goal_point_positions" type="string" value="[0.0, 0.0]" />
+        <param name="pre_grasp_goal_point_time_from_start_secs" type="string" value="0" />
+        <param name="pre_grasp_joint_names" type="string" value="['m1n6s200_joint_finger_1', 'm1n6s200_joint_finger_2']" />
+
+        <param name="grasp_goal_point_effort" type="string" value="[50,50]" />
+        <param name="grasp_goal_point_positions" type="string" value="[1.4, 1.4]" />
+        <param name="grasp_goal_point_time_from_start_secs" type="string" value="0" />
+
+        <param name="grasp_posture_joint_names" type="string" value="['m1n6s200_joint_finger_1', 'm1n6s200_joint_finger_2']" />
+        <param name="pre_grasp_approach_min_distance" type="string" value="0.05" />
+        <param name="pre_grasp_approach_desired_distance" type="string" value="0.1" />
+
+        <param name="post_grasp_retreat_min_distance" type="string" value="0.05" />
+        <param name="post_grasp_retreat_desired_distance" type="string" value="0.1" />
+
+        <param name="max_contact_force" type="string" value="-1" />
+
+        <node name="crui_manager" pkg="graspit_moveit_controller" type="crui_manager.py" />
+
+    </group>
+
+    <!-- World manager node-->
+    <group ns="world_manager">
+        <!--Load the walls for your workspace-->
+        <rosparam command="load" file="$(find launcher)/configs/mico.workspace.yaml"/>
+
+        <param name="planning_scene_topic" value="/get_planning_scene"/>
+        <node name="world_manager" pkg="world_manager" type="world_manager_server.py" output="screen"/>
+    </group>
 
     <!-- Kinect2 Broadcasters -->
     <node pkg="rosbag_republisher" type="rosbag_republisher.py" name="rosbag_republisher"
@@ -93,7 +131,6 @@
         <param name="x_clip_max" value="$(arg x_filter_max)"/>
         <param name="y_clip_max" value="$(arg y_filter_max)"/>
         <param name="z_clip_max" value="$(arg z_filter_max)"/>
-        <include file="$(find launcher)/launch/models.launch"/>
     </group>
 
 
@@ -119,5 +156,10 @@
     <!-- Alexa Controller -->
     <!-- This one you have to run on your own, unfortunately -->
     <!-- TODO: Integrate Xuelong's addition -->
+
+    <param name="/move_group/trajectory_execution/execution_duration_monitoring" value="false" />
+    <!--<param name="/move_group/allowed_execution_duration_scaling" value="10.0"/>-->
+    <!--<param name="/move_group/trajectory_execution/allowed_execution_duration_scaling" value="10.0"/>-->
+    <!--<param name="/move_group/trajectory_execution/allowed_start_tolerance" value="0.1"/>-->
 
 </launch>

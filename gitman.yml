@@ -7,11 +7,14 @@ sources:
 - name: lcsr_tf_tools
   repo: 'git@github.com:CURG-BCI/lcsr_tf_tools.git'
   rev: master
-- name: moveit_trajectory_planner
-  repo: 'git@github.com:CURG-BCI/moveit_trajectory_planner.git'
+- name: graspit_moveit_controller
+  repo: 'git@github.com:CURG-BCI/graspit_moveit_controller.git'
   rev: master
 - name: run_experiment
   repo: 'git@github.com:CURG-BCI/run_experiment.git'
+  rev: master
+- name: world_manager
+  repo: 'git@github.com:CRLab/world_manager.git'
   rev: master
 
 # Vision includes
