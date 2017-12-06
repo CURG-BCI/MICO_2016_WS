@@ -43,7 +43,7 @@
             <param name="gripper_move_group_name" type="string" value="gripper" />
 
             <param name="analyzer_planner_id" type="string" value="[PRMkConfigDefault]" />
-            <param name="executor_planner_id" type="string" value="[RRTkConfigDefault]" />
+            <param name="executor_planner_id" type="string" value="[BiRRTkConfigDefault]" />
             <param name="allowed_analyzing_time" type="double" value="2" />
             <param name="allowed_execution_time" type="double" value="8" />
 
@@ -82,7 +82,9 @@
 
             <!--<rosparam command="load" file="$(find m1n6s200_moveit_config)/config/kinematics.yaml"/>-->
 
-            <node name="crui_manager" pkg="graspit_moveit_controller" type="crui_manager.py" output="screen" />
+            <node name="crui_manager" pkg="graspit_moveit_controller" type="crui_manager.py" output="screen" >
+                <remap from="/joint_states"   to="/m1n6s200_driver/out/joint_state" />
+            </node>
 
       <!--</group>-->
 
