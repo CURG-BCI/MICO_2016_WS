@@ -24,9 +24,6 @@ sources:
 - name: filter_tf
   repo: 'git@github.com:CURG/filter_tf.git'
   rev: master
-- name: object_models
-  repo: 'git@github.com:CURG-BCI/object_models.git'
-  rev: master
 - name: rosbag_republisher
   repo: git@github.com:CRLab/rosbag_republisher.git
   rev: master
